@@ -1,0 +1,84 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agent {
+  id          String         @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime       @default(now())
+  versions    AgentVersion[]
+
+  @@map("agents")
+}
+
+model AgentVersion {
+  id           String    @id @default(uuid())
+  agentId      String    @map("agent_id")
+  agent        Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  version      String
+  systemPrompt String    @map("system_prompt")
+  sopPolicy    String    @map("sop_policy")
+  config       Json?
+  createdAt    DateTime  @default(now()) @map("created_at")
+  testRuns     TestRun[]
+
+  @@map("agent_versions")
+}
+
+model TestCase {
+  id               String       @id @default(uuid())
+  name             String
+  category         String
+  input            String
+  contextData      Json?        @map("context_data")
+  expectedBehavior Json         @map("expected_behavior")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  testResults      TestResult[]
+
+  @@map("test_cases")
+}
+
+model TestRun {
+  id              String       @id @default(uuid())
+  agentVersionId  String       @map("agent_version_id")
+  agentVersion    AgentVersion @relation(fields: [agentVersionId], references: [id], onDelete: Cascade)
+  status          String       @default("PENDING")
+  totalTests      Int          @default(0) @map("total_tests")
+  passed          Int          @default(0)
+  failed          Int          @default(0)
+  avgPolicyScore  Float        @default(0.0) @map("avg_policy_score")
+  avgToolScore    Float        @default(0.0) @map("avg_tool_score")
+  avgQualityScore Float        @default(0.0) @map("avg_quality_score")
+  startedAt       DateTime?    @map("started_at")
+  completedAt     DateTime?    @map("completed_at")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  results         TestResult[]
+
+  @@map("test_runs")
+}
+
+model TestResult {
+  id              String    @id @default(uuid())
+  testRunId       String    @map("test_run_id")
+  testRun         TestRun   @relation(fields: [testRunId], references: [id], onDelete: Cascade)
+  testCaseId      String    @map("test_case_id")
+  testCase        TestCase  @relation(fields: [testCaseId], references: [id], onDelete: Cascade)
+  status          String
+  response        String
+  toolCalls       Json      @map("tool_calls")
+  policyScore     Float     @map("policy_score")
+  toolScore       Float     @map("tool_score")
+  qualityScore    Float     @map("quality_score")
+  severity        String?
+  failureReason   String?   @map("failure_reason")
+  executionTimeMs Int?      @map("execution_time_ms")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("test_results")
+}

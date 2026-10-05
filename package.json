@@ -1,0 +1,22 @@
+{
+  "name": "agent-regression-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CI-style Agent Regression & Evaluation Engine for AI Agents",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"api,worker,web\" -c \"blue,green,magenta\" \"npm run dev:api\" \"npm run dev:worker\" \"npm run dev:web\"",
+    "dev:api": "npm run --workspace=@siena/api dev",
+    "dev:worker": "npm run --workspace=@siena/worker dev",
+    "dev:web": "npm run --workspace=@siena/web dev",
+    "build": "npm run --workspaces build",
+    "seed": "npm run --workspace=@siena/api seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
+  }
+}
