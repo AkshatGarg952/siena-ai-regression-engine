@@ -61,7 +61,10 @@ export const comparisonService = {
         reason = 'Identical passing behavior.';
       }
 
-      const testCaseInfo = target.testCase || base.testCase;
+      let testCaseInfo = target.testCase || base.testCase;
+      if (!testCaseInfo) {
+        testCaseInfo = (await import('@siena/shared')).INITIAL_TEST_CASES.find((tc) => tc.id === testCaseId) as any;
+      }
 
       differences.push({
         testCaseId,

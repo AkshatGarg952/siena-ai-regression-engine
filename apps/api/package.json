@@ -8,7 +8,8 @@
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "test": "tsx test/regression.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
