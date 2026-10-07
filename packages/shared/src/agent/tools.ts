@@ -1,5 +1,5 @@
 import { MOCK_ORDERS, MOCK_SUBSCRIPTIONS, MOCK_CUSTOMERS } from './fixtures';
-import { CapturedToolCall } from '@siena/shared';
+import { CapturedToolCall } from '../types';
 
 export interface ToolDefinition {
   name: string;

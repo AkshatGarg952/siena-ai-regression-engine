@@ -1,4 +1,4 @@
-import { TestCase, CapturedToolCall, TestStatus, SeverityLevel } from '@siena/shared';
+import { TestCase, CapturedToolCall, TestStatus, SeverityLevel } from '../types';
 import { evaluateDeterministic } from './deterministic';
 import { evaluateJudge } from './judge';
 

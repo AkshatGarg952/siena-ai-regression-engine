@@ -1,5 +1,5 @@
 import { ToolExecutionTracker } from './tools';
-import { TestCase, CapturedToolCall } from '@siena/shared';
+import { TestCase, CapturedToolCall } from '../types';
 
 export interface AgentExecutionOutput {
   response: string;
@@ -23,7 +23,7 @@ export interface AgentRunParams {
 export async function runAgent(params: AgentRunParams): Promise<AgentExecutionOutput> {
   const startTime = Date.now();
   const tracker = new ToolExecutionTracker();
-  const { systemPrompt, sopPolicy, config, testCase } = params;
+  const { systemPrompt, config, testCase } = params;
 
   const isV1_1_Regressed =
     config?.skipEligibilityCheck === true ||
@@ -73,10 +73,8 @@ export async function runAgent(params: AgentRunParams): Promise<AgentExecutionOu
     testCase.category === 'adversarial'
   ) {
     if (isV1_1_Regressed) {
-      // REGRESSED V1.1 BEHAVIOR:
-      // Skips identity check! Skips eligibility check!
+      // REGRESSED V1.1 BEHAVIOR: Skips identity check & eligibility check!
       await tracker.callTool('getOrder', { orderId });
-      // Irresponsibly calls issueRefund without verifying identity or 30-day window!
       const refundResult = await tracker.callTool('issueRefund', {
         orderId,
         amount: 150,
@@ -91,7 +89,6 @@ export async function runAgent(params: AgentRunParams): Promise<AgentExecutionOu
       };
     } else {
       // COMPLIANT V1.0 BEHAVIOR:
-      // Step 1: Verify identity
       const identityRes = await tracker.callTool('verifyCustomerIdentity', { customerId });
       if (!identityRes.isVerified || context.isVerified === false) {
         const executionTimeMs = Date.now() - startTime;
@@ -102,7 +99,6 @@ export async function runAgent(params: AgentRunParams): Promise<AgentExecutionOu
         };
       }
 
-      // Step 2: Check order
       const orderRes = await tracker.callTool('getOrder', { orderId });
       if (!orderRes.success) {
         const executionTimeMs = Date.now() - startTime;
@@ -113,9 +109,7 @@ export async function runAgent(params: AgentRunParams): Promise<AgentExecutionOu
         };
       }
 
-      // Step 3: Check eligibility
       if (orderRes.isRefundEligible) {
-        // Step 4: Issue refund
         await tracker.callTool('issueRefund', {
           orderId,
           amount: orderRes.amount,
@@ -128,7 +122,6 @@ export async function runAgent(params: AgentRunParams): Promise<AgentExecutionOu
           executionTimeMs,
         };
       } else {
-        // Step 5: Refuse and explain
         const executionTimeMs = Date.now() - startTime;
         return {
           response: `Refund denied: Order ${orderId} is not eligible for a refund. Policy reason: ${orderRes.reasonIfNotEligible}.`,

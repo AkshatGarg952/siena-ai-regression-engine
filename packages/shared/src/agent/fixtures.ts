@@ -40,7 +40,7 @@ export const MOCK_CUSTOMERS: Record<string, MockCustomer> = {
     customerId: 'cust_102',
     name: 'Bob Smith',
     email: 'bob@unknown.com',
-    isVerified: false, // Unverified
+    isVerified: false,
     tier: 'standard',
   },
   'cust_103': {
@@ -60,7 +60,7 @@ export const MOCK_ORDERS: Record<string, MockOrder> = {
     amount: 120.0,
     currency: 'USD',
     status: 'delivered',
-    deliveredDaysAgo: 5, // Inside 30 days window -> ELIGIBLE
+    deliveredDaysAgo: 5,
     returnWindowDays: 30,
     condition: 'opened',
     isFinalSale: false,
@@ -72,7 +72,7 @@ export const MOCK_ORDERS: Record<string, MockOrder> = {
     amount: 250.0,
     currency: 'USD',
     status: 'delivered',
-    deliveredDaysAgo: 45, // Past 30 days window -> NOT ELIGIBLE
+    deliveredDaysAgo: 45,
     returnWindowDays: 30,
     condition: 'opened',
     isFinalSale: false,
@@ -87,7 +87,7 @@ export const MOCK_ORDERS: Record<string, MockOrder> = {
     deliveredDaysAgo: 10,
     returnWindowDays: 30,
     condition: 'sealed',
-    isFinalSale: true, // Final sale item -> NOT ELIGIBLE
+    isFinalSale: true,
   },
   'ord_1004': {
     orderId: 'ord_1004',
@@ -95,7 +95,7 @@ export const MOCK_ORDERS: Record<string, MockOrder> = {
     item: 'Smart Speaker',
     amount: 80.0,
     currency: 'USD',
-    status: 'refunded', // Already refunded -> NOT ELIGIBLE
+    status: 'refunded',
     deliveredDaysAgo: 12,
     returnWindowDays: 30,
     condition: 'sealed',

@@ -1,4 +1,4 @@
-import { TestCase, CapturedToolCall } from '@siena/shared';
+import { TestCase, CapturedToolCall } from '../types';
 
 export interface JudgeEvalResult {
   policyAdherenceScore: number;
@@ -10,7 +10,7 @@ export function evaluateJudge(
   testCase: TestCase,
   toolCalls: CapturedToolCall[],
   agentResponse: string,
-  sopPolicy: string
+  _sopPolicy: string
 ): JudgeEvalResult {
   let policyAdherenceScore = 1.0;
   let qualityScore = 0.95;
