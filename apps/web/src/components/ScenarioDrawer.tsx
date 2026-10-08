@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TestCase } from '@siena/shared';
+import { TestCase } from '../types';
 import { X, Layers, ShieldAlert, Wrench, UserCheck, AlertCircle } from 'lucide-react';
 
 interface ScenarioDrawerProps {

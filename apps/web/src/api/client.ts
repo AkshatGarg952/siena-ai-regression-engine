@@ -1,4 +1,4 @@
-import { Agent, AgentVersion, TestCase, TestRun, TestResult, ComparisonReport } from '@siena/shared';
+import { Agent, AgentVersion, TestCase, TestRun, TestResult, ComparisonReport } from '../types';
 
 const rawBase = (import.meta as any).env?.VITE_API_URL || '';
 const API_BASE = rawBase ? `${rawBase.replace(/\/$/, '')}/api` : '/api';

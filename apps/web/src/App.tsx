@@ -4,7 +4,7 @@ import { MetricCard } from './components/MetricCard';
 import { RegressionDiff } from './components/RegressionDiff';
 import { ScenarioDrawer } from './components/ScenarioDrawer';
 import { apiClient } from './api/client';
-import { AgentVersion, TestCase, TestRun, ComparisonReport } from '@siena/shared';
+import { AgentVersion, TestCase, TestRun, ComparisonReport } from './types';
 import {
   Play,
   Sparkles,

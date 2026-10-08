@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ComparisonReport, DiffType, SeverityLevel } from '@siena/shared';
+import { ComparisonReport, DiffType, SeverityLevel } from '../types';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -191,7 +191,7 @@ export const RegressionDiff: React.FC<RegressionDiffProps> = ({ report }) => {
 
       {/* Scenario Differences List */}
       <div className="space-y-4">
-        {filteredItems.map((item, index) => {
+        {filteredItems.map((item, index: number) => {
           const isExpanded = expandedItems[item.testCaseId] !== false; // Default expanded
           const isRegression = item.type === 'REGRESSION';
 
@@ -292,7 +292,7 @@ export const RegressionDiff: React.FC<RegressionDiffProps> = ({ report }) => {
                           <span className="text-xs text-slate-500 italic">No tools called</span>
                         ) : (
                           <div className="flex flex-wrap gap-1.5">
-                            {item.baseToolCalls.map((t, i) => (
+                            {item.baseToolCalls.map((t: any, i: number) => (
                               <span
                                 key={i}
                                 className="inline-flex items-center text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
@@ -339,7 +339,7 @@ export const RegressionDiff: React.FC<RegressionDiffProps> = ({ report }) => {
                           <span className="text-xs text-slate-500 italic">No tools called</span>
                         ) : (
                           <div className="flex flex-wrap gap-1.5">
-                            {item.targetToolCalls.map((t, i) => {
+                            {item.targetToolCalls.map((t: any, i: number) => {
                               const isForbidden = t.tool === 'issueRefund' && item.type === 'REGRESSION';
                               return (
                                 <span
