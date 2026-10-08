@@ -323,7 +323,7 @@ export const App: React.FC = () => {
                     </span>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400 border border-slate-700">
-                    gpt-4o-mini
+                    Simulated Agent • {ver.config?.model || 'gpt-4o-mini'}
                   </span>
                 </div>
 
