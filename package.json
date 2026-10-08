@@ -12,7 +12,7 @@
     "dev:api": "npm run --workspace=@siena/api dev",
     "dev:worker": "npm run --workspace=@siena/worker dev",
     "dev:web": "npm run --workspace=@siena/web dev",
-    "build": "npm run --workspaces build",
+    "build": "npx prisma generate --schema=apps/api/prisma/schema.prisma && npm run --workspaces build",
     "seed": "npm run --workspace=@siena/api seed"
   },
   "devDependencies": {

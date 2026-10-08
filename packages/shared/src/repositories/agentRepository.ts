@@ -7,6 +7,10 @@ const memoryVersions: Map<string, AgentVersion> = new Map();
 let isDbConnected: boolean | null = null;
 async function checkDb(): Promise<boolean> {
   if (isDbConnected !== null) return isDbConnected;
+  if (!prisma) {
+    isDbConnected = false;
+    return false;
+  }
   try {
     await prisma.$queryRaw`SELECT 1`;
     isDbConnected = true;
