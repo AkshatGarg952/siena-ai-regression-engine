@@ -1,6 +1,7 @@
 import { Agent, AgentVersion, TestCase, TestRun, TestResult, ComparisonReport } from '@siena/shared';
 
-const API_BASE = '/api';
+const rawBase = (import.meta as any).env?.VITE_API_URL || '';
+const API_BASE = rawBase ? `${rawBase.replace(/\/$/, '')}/api` : '/api';
 
 export const apiClient = {
   async getHealth(): Promise<any> {
