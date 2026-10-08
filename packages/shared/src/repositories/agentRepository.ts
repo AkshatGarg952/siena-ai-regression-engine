@@ -25,12 +25,12 @@ export const agentRepository = {
           include: { versions: true },
           orderBy: { createdAt: 'desc' },
         });
-        return rows.map((r) => ({
+        return rows.map((r: any) => ({
           id: r.id,
           name: r.name,
           description: r.description,
           createdAt: r.createdAt.toISOString(),
-          versions: r.versions.map((v) => ({
+          versions: r.versions.map((v: any) => ({
             id: v.id,
             agentId: v.agentId,
             version: v.version,
@@ -63,7 +63,7 @@ export const agentRepository = {
           name: r.name,
           description: r.description,
           createdAt: r.createdAt.toISOString(),
-          versions: r.versions.map((v) => ({
+          versions: r.versions.map((v: any) => ({
             id: v.id,
             agentId: v.agentId,
             version: v.version,
@@ -128,7 +128,7 @@ export const agentRepository = {
           where: { agentId },
           orderBy: { createdAt: 'asc' },
         });
-        return rows.map((v) => ({
+        return rows.map((v: any) => ({
           id: v.id,
           agentId: v.agentId,
           version: v.version,

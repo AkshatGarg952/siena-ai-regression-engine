@@ -23,7 +23,7 @@ export const testCaseRepository = {
         const rows = await prisma.testCase.findMany({
           orderBy: { createdAt: 'asc' },
         });
-        return rows.map((r) => ({
+        return rows.map((r: any) => ({
           id: r.id,
           name: r.name,
           category: r.category as any,

@@ -25,7 +25,7 @@ export const testRunRepository = {
           include: { agentVersion: true, results: { include: { testCase: true } } },
           orderBy: { createdAt: 'desc' },
         });
-        return rows.map((r) => ({
+        return rows.map((r: any) => ({
           id: r.id,
           agentVersionId: r.agentVersionId,
           agentVersion: r.agentVersion ? {
@@ -47,7 +47,7 @@ export const testRunRepository = {
           startedAt: r.startedAt?.toISOString() || null,
           completedAt: r.completedAt?.toISOString() || null,
           createdAt: r.createdAt.toISOString(),
-          results: r.results.map((res) => ({
+          results: r.results.map((res: any) => ({
             id: res.id,
             testRunId: res.testRunId,
             testCaseId: res.testCaseId,
@@ -111,7 +111,7 @@ export const testRunRepository = {
           startedAt: r.startedAt?.toISOString() || null,
           completedAt: r.completedAt?.toISOString() || null,
           createdAt: r.createdAt.toISOString(),
-          results: r.results.map((res) => ({
+          results: r.results.map((res: any) => ({
             id: res.id,
             testRunId: res.testRunId,
             testCaseId: res.testCaseId,
@@ -259,7 +259,7 @@ export const testRunRepository = {
           where: { testRunId: runId },
           include: { testCase: true },
         });
-        return rows.map((res) => ({
+        return rows.map((res: any) => ({
           id: res.id,
           testRunId: res.testRunId,
           testCaseId: res.testCaseId,
