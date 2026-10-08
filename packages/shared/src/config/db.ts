@@ -1,6 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/siena_db?schema=public';
+}
+
 import { PrismaClient } from '@prisma/client';
 
 let prisma: PrismaClient = null as any;

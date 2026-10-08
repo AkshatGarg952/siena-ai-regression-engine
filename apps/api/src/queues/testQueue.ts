@@ -5,21 +5,27 @@ export const TEST_RUN_QUEUE_NAME = 'test-runs';
 
 let testRunQueue: Queue | null = null;
 
-try {
-  testRunQueue = new Queue(TEST_RUN_QUEUE_NAME, {
-    connection: redisConnectionOptions,
-    defaultJobOptions: {
-      attempts: 2,
-      removeOnComplete: true,
-      removeOnFail: false,
-    },
-  });
+const isRedisConfigured = Boolean(process.env.REDIS_URL || process.env.REDIS_HOST);
 
-  testRunQueue.on('error', (err) => {
-    console.warn('[BullMQ] Queue connection error (will use fallback runner if needed):', err.message);
-  });
-} catch (err: any) {
-  console.warn('[BullMQ] Failed to initialize queue with Redis:', err.message);
+if (isRedisConfigured) {
+  try {
+    testRunQueue = new Queue(TEST_RUN_QUEUE_NAME, {
+      connection: redisConnectionOptions,
+      defaultJobOptions: {
+        attempts: 2,
+        removeOnComplete: true,
+        removeOnFail: false,
+      },
+    });
+
+    testRunQueue.on('error', (err) => {
+      console.warn('[BullMQ] Queue connection warning (will use fallback runner):', err.message);
+    });
+  } catch (err: any) {
+    console.warn('[BullMQ] Failed to initialize queue with Redis:', err.message);
+  }
+} else {
+  console.log('ℹ️ Redis not configured — BullMQ running in zero-dependency in-process mode');
 }
 
 export type RunJobData = {
